@@ -7,6 +7,7 @@ import com.hust.hospital.util.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,5 +65,15 @@ public class PatientServiceImpl implements PatientService {
             PatientMapper mapper = sqlSession.getMapper(PatientMapper.class);
             return mapper.getPatientByName(username);
         }
+    }
+
+    @Override
+    public List<Integer> getBeds() {
+        List<Integer> ans = new ArrayList<>();
+        List<Patient> patients = getPatients();
+        for(Patient p :patients){
+            ans.add(p.getBed());
+        }
+        return ans;
     }
 }

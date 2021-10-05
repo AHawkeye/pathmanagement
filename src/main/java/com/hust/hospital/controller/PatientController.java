@@ -29,6 +29,11 @@ import java.util.Map;
 public class PatientController {
 
     /**
+     * 床位总数
+     */
+    private final int countOfBed = 1000;
+
+    /**
      * 展示所有病人
      *
      * @return
@@ -58,6 +63,33 @@ public class PatientController {
         }
         return Result.success(dtos);
     }
+    @RequestMapping(value = "/addpat", method = RequestMethod.GET)
+    public Result<Map<String, Object>> addPatient() {
+        Map<String,Object> map = new HashMap<>();
+        String id;
+        int bed = 0;
+        PatientService ps = new PatientServiceImpl();
+        LocalDate date = LocalDate.now();
+        List<Integer> beds = ps.getBeds();
+        for(int i = 1;i < countOfBed;i++){
+            if(!beds.contains(i)){
+                bed = i;
+                break;
+            }
+            if(i == countOfBed - 1){
+                map.put("message","床位已满");
+                return Result.failed(map);
+            }
+        }
+        id = String.valueOf(date.getYear())+date.getMonthValue()+
+                date.getDayOfMonth() +bed;
+        map.put("id",id);
+        map.put("bed",bed);
+        return Result.success(map);
+    }
+
+
+
 
     /**
      * 将病人添加到路径

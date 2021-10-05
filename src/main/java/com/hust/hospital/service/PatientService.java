@@ -50,4 +50,6 @@ public interface PatientService {
      * @return
      */
     Patient getPatientByName(String username);
+
+    List<Integer> getBeds();
 }
