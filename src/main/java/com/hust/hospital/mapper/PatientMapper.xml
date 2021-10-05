@@ -10,7 +10,7 @@
         select * from pathmanagement.patient where id = #{id}
     </select>
     <insert id="addPatient" parameterType="com.hust.hospital.entity.Patient">
-        insert into pathmanagement.patient (id,name,bed,status) values (#{id},#{name},#{bed})
+        insert into pathmanagement.patient (id,name,bed,status) values (#{id},#{name},#{bed},#{status})
     </insert>
     <update id="updatePatient" parameterType="com.hust.hospital.entity.Patient">
         update pathmanagement.patient set name = #{name},bed = #{bed},status = #{status} where id = #{id};

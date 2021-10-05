@@ -87,6 +87,14 @@ public class PatientController {
         map.put("bed",bed);
         return Result.success(map);
     }
+    @RequestMapping(value = "/addpat", method = RequestMethod.POST)
+    public Result<Map<String, Object>> addPatient(@RequestBody AddPatientDto dto) {
+        Map<String,Object> map = new HashMap<>();
+        PatientService ps = new PatientServiceImpl();
+        ps.addPatient(new Patient(dto.getId(),dto.getName(),dto.getBed(),Status.UNINVOLVED.getId()));
+        map.put("message","成功加入");
+        return Result.success(map);
+    }
 
 
 
@@ -277,7 +285,7 @@ public class PatientController {
                 int currentStage = dto.getStage();
                 if(currentStage == Stage.ONE.getId()){
                     Stage1 s1 = ss.getStage1ById(dto.getId());
-                    ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getBeginTime(),dto.getDate(),dto.getTime()));
                     ss.addStage2(new Stage2(dto.getId(),Stage2.getInitialCheckedCities(),Stage2.getInitialCities(),Stage2.getInitialDetailCities(),dto.getDate(),dto.getTime(),null,null));
                     OverAllService oas = new OverAllServiceImpl();
                     OverAll oa = oas.getOverAllById(dto.getId());
@@ -286,7 +294,7 @@ public class PatientController {
                     oas.updateOverAll(oa);
                 }else if(currentStage == Stage.TWO.getId()){
                     Stage2 s2 = ss.getStage2ById(dto.getId());
-                    ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getBeginTime(),dto.getDate(),dto.getTime()));
                     ss.addStage3(new Stage3(dto.getId(),Stage3.getInitialCheckedCities(),Stage3.getInitialCities(),Stage3.getInitialDetailCities(),dto.getDate(),dto.getTime(),null,null));
                     OverAllService oas = new OverAllServiceImpl();
                     OverAll oa = oas.getOverAllById(dto.getId());
@@ -295,7 +303,7 @@ public class PatientController {
                     oas.updateOverAll(oa);
                 }else if(currentStage == Stage.THREE.getId()) {
                     Stage3 s3 = ss.getStage3ById(dto.getId());
-                    ss.updateStage3(new Stage3(s3.getPatientId(), s3.getCheckedCities(), s3.getCities(), s3.getDetailCities(), s3.getBeginDate(), s3.getEndTime(), dto.getDate(), dto.getTime()));
+                    ss.updateStage3(new Stage3(s3.getPatientId(), s3.getCheckedCities(), s3.getCities(), s3.getDetailCities(), s3.getBeginDate(), s3.getBeginTime(), dto.getDate(), dto.getTime()));
                     ss.addStage4(new Stage4(dto.getId(), Stage4.getInitialCheckedCities(), Stage4.getInitialCities(), Stage4.getInitialDetailCities(), dto.getDate(), dto.getTime(), null, null));
                     OverAllService oas = new OverAllServiceImpl();
                     OverAll oa = oas.getOverAllById(dto.getId());
@@ -312,16 +320,16 @@ public class PatientController {
                 OverAll oa = oas.getOverAllById(dto.getId());
                 if(currentStage == Stage.ONE.getId()){
                     Stage1 s1 = ss.getStage1ById(dto.getId());
-                    ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getBeginTime(),dto.getDate(),dto.getTime()));
                 }else if(currentStage == Stage.TWO.getId()){
                     Stage2 s2 = ss.getStage2ById(dto.getId());
-                    ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getBeginTime(),dto.getDate(),dto.getTime()));
                 } else if(currentStage == Stage.THREE.getId()){
                     Stage3 s3 = ss.getStage3ById(dto.getId());
-                    ss.updateStage3(new Stage3(s3.getPatientId(),s3.getCheckedCities(),s3.getCities(),s3.getDetailCities(),s3.getBeginDate(),s3.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage3(new Stage3(s3.getPatientId(),s3.getCheckedCities(),s3.getCities(),s3.getDetailCities(),s3.getBeginDate(),s3.getBeginTime(),dto.getDate(),dto.getTime()));
                 }else if(currentStage == Stage.FOUR.getId()) {
                     Stage4 s4 = ss.getStage4ById(dto.getId());
-                    ss.updateStage4(new Stage4(s4.getPatientId(), s4.getCheckedCities(), s4.getCities(), s4.getDetailCities(), s4.getBeginDate(), s4.getEndTime(), dto.getDate(), dto.getTime()));
+                    ss.updateStage4(new Stage4(s4.getPatientId(), s4.getCheckedCities(), s4.getCities(), s4.getDetailCities(), s4.getBeginDate(), s4.getBeginTime(), dto.getDate(), dto.getTime()));
                 }
                 oa.setStageOne(StageStatus.DONE.getId());
                 oa.setStageTwo(StageStatus.DONE.getId());
