@@ -81,8 +81,7 @@ public class PatientController {
                 return Result.failed(map);
             }
         }
-        id = String.valueOf(date.getYear())+date.getMonthValue()+
-                date.getDayOfMonth() +bed;
+        id = date.toString()+bed;
         map.put("id",id);
         map.put("bed",bed);
         return Result.success(map);
