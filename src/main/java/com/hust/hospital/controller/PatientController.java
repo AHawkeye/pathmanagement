@@ -81,7 +81,14 @@ public class PatientController {
                 return Result.failed(map);
             }
         }
-        id = date.toString()+bed;
+        StringBuffer sb = new StringBuffer();
+        char[] c = date.toString().toCharArray();
+        for(char c1 : c){
+            if(c1 != '-'){
+                sb.append(c1);
+            }
+        }
+        id = sb.toString()+bed;
         map.put("id",id);
         map.put("bed",bed);
         return Result.success(map);
