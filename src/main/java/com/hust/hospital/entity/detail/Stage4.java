@@ -47,7 +47,7 @@ public class Stage4 {
         return "{\"city0\":[\"上级医师查房，进行评估，确定有无并发症情况，明确是否出院\",\"完成出院记录、病案首页、出院证明书等\",\"向患者交代出院后的注意事项，如：返院复诊的时间、地点，发生紧急情况时的处理等\"],\"city1\":[\"出院带药\",\"定期门诊随访\",\"监测血常规\"],\"city2\":[\"其他医嘱\"],\"city3\":[\"指导患者办理出院手续\"]}";
     }
     public static String getInitialCheckedCities() {
-        return "{\"city0\":[\"上级医师查房，进行评估，确定有无并发症情况，明确是否出院\"],\"city1\":[\"出院带药\"],\"city2\":[\"其他医嘱\"],\"city3\":[\"指导患者办理出院手续\"]}";
+        return "{\"city0\":[\"\"],\"city1\":[\"\"],\"city2\":[\"\"],\"city3\":[\"\"]}";
     }
     public static String getInitialDetailCities() {
         return "{\"city0\":{},\"city1\":{\"input1\":\"\",\"input0\":\"\"},\"city2\":{\"input4\":[],\"input3\":\"\",\"input2\":[],\"input1\":[],\"input0\":[]},\"city3\":{}}";
