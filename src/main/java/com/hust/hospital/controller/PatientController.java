@@ -359,16 +359,16 @@ public class PatientController {
                 OverAll oa = oas.getOverAllById(dto.getId());
                 if(currentStage == Stage.ONE.getId()){
                     Stage1 s1 = ss.getStage1ById(dto.getId());
-                    ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getBeginTime(),dto.getDate(),dto.getTime()));
                 }else if(currentStage == Stage.TWO.getId()){
                     Stage2 s2 = ss.getStage2ById(dto.getId());
-                    ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getBeginTime(),dto.getDate(),dto.getTime()));
                 } else if(currentStage == Stage.THREE.getId()){
                     Stage3 s3 = ss.getStage3ById(dto.getId());
-                    ss.updateStage3(new Stage3(s3.getPatientId(),s3.getCheckedCities(),s3.getCities(),s3.getDetailCities(),s3.getBeginDate(),s3.getEndTime(),dto.getDate(),dto.getTime()));
+                    ss.updateStage3(new Stage3(s3.getPatientId(),s3.getCheckedCities(),s3.getCities(),s3.getDetailCities(),s3.getBeginDate(),s3.getBeginTime(),dto.getDate(),dto.getTime()));
                 }else if(currentStage == Stage.FOUR.getId()) {
                     Stage4 s4 = ss.getStage4ById(dto.getId());
-                    ss.updateStage4(new Stage4(s4.getPatientId(), s4.getCheckedCities(), s4.getCities(), s4.getDetailCities(), s4.getBeginDate(), s4.getEndTime(), dto.getDate(), dto.getTime()));
+                    ss.updateStage4(new Stage4(s4.getPatientId(), s4.getCheckedCities(), s4.getCities(), s4.getDetailCities(), s4.getBeginDate(), s4.getBeginTime(), dto.getDate(), dto.getTime()));
                 }
                 oa.setStageOne(StageStatus.DONE.getId());
                 oa.setStageTwo(StageStatus.DONE.getId());
