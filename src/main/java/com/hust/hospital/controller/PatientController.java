@@ -95,7 +95,7 @@ public class PatientController {
                 return Result.failed(map);
             }
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         char[] c = date.toString().toCharArray();
         for(char c1 : c){
             if(c1 != '-'){
@@ -110,7 +110,6 @@ public class PatientController {
     @RequestMapping(value = "/addpat", method = RequestMethod.POST)
     public Result<Map<String, Object>> addPatient(@RequestBody AddPatientDto dto) {
         Map<String,Object> map = new HashMap<>();
-
         ps.addPatient(new Patient(dto.getId(),dto.getName(),dto.getBed(),Status.UNINVOLVED.getId()));
         map.put("message","成功加入");
         return Result.success(map);
@@ -404,7 +403,4 @@ public class PatientController {
         }
 
     }
-
-
-
 }
