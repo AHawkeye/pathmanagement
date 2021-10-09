@@ -28,10 +28,7 @@ import java.util.Map;
 @RestController
 public class PatientController {
 
-    /**
-     * 床位总数
-     */
-    private final int countOfBed = 1000;
+
 
     @Autowired
     private PatientService ps;
@@ -79,6 +76,10 @@ public class PatientController {
 
     @RequestMapping(value = "/addpat", method = RequestMethod.GET)
     public Result<Map<String, Object>> addPatient() {
+        /**
+         * 床位总数
+         */
+        final int countOfBed = 1000;
         Map<String,Object> map = new HashMap<>();
         String id;
         int bed = 0;
