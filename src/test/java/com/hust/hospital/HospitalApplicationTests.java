@@ -13,6 +13,7 @@ import com.hust.hospital.entity.detail.Stage4;
 import com.hust.hospital.service.*;
 import com.hust.hospital.service.impl.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -22,11 +23,12 @@ import java.util.List;
 
 @SpringBootTest
 class HospitalApplicationTests {
-
+    @Autowired
+    private VariationService vs;
     @Test
     void contextLoads() {
-        VariationService vs = new VariationServiceImpl();
-        vs.addVariation(new Variation("12321","#12312"));
+        Variation v = vs.getVariationById("12321");
+        System.out.println(v);
 
     }
 

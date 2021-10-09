@@ -10,8 +10,8 @@ import com.hust.hospital.entity.detail.Stage3;
 import com.hust.hospital.entity.detail.Stage4;
 import com.hust.hospital.result.Result;
 import com.hust.hospital.service.*;
-import com.hust.hospital.service.impl.*;
 import com.hust.hospital.util.Transfer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,6 +33,20 @@ public class PatientController {
      */
     private final int countOfBed = 1000;
 
+    @Autowired
+    private PatientService ps;
+
+    @Autowired
+    private InPathService ips;
+
+    @Autowired
+    private OverAllService oas;
+
+    @Autowired
+    private StageService ss;
+
+    @Autowired
+    private VariationService vs;
     /**
      * 展示所有病人
      *
@@ -40,7 +54,7 @@ public class PatientController {
      */
     @RequestMapping(value = "/home/list", method = RequestMethod.GET)
     public Result<List<PatientDto>> getPatients() {
-        PatientService ps = new PatientServiceImpl();
+
         List<Patient> patients = ps.getPatients();
         List<PatientDto> dtos = new ArrayList<>();
         for (Patient p : patients) {
@@ -55,20 +69,19 @@ public class PatientController {
      */
     @RequestMapping(value = "/home/listf", method = RequestMethod.GET)
     public Result<List<InPathDto>> getInPaths() {
-        InPathService is = new InPathServiceImpl();
-        List<InPath> patients = is.getInPaths();
+        List<InPath> patients = ips.getInPaths();
         List<InPathDto> dtos = new ArrayList<>();
         for (InPath p : patients) {
             dtos.add(Transfer.inPathToDto(p));
         }
         return Result.success(dtos);
     }
+
     @RequestMapping(value = "/addpat", method = RequestMethod.GET)
     public Result<Map<String, Object>> addPatient() {
         Map<String,Object> map = new HashMap<>();
         String id;
         int bed = 0;
-        PatientService ps = new PatientServiceImpl();
         LocalDate date = LocalDate.now();
         List<Integer> beds = ps.getBeds();
         for(int i = 1;i < countOfBed;i++){
@@ -96,23 +109,21 @@ public class PatientController {
     @RequestMapping(value = "/addpat", method = RequestMethod.POST)
     public Result<Map<String, Object>> addPatient(@RequestBody AddPatientDto dto) {
         Map<String,Object> map = new HashMap<>();
-        PatientService ps = new PatientServiceImpl();
+
         ps.addPatient(new Patient(dto.getId(),dto.getName(),dto.getBed(),Status.UNINVOLVED.getId()));
         map.put("message","成功加入");
         return Result.success(map);
     }
 
 
-
-
+    
     /**
      * 将病人添加到路径
      * @return
      */
     @RequestMapping(value = "/home/addtopath", method = RequestMethod.POST)
     public Result<Map<String,Object>> addToPath(@RequestBody AddToPathDto dto) {
-        InPathService ips = new InPathServiceImpl();
-        PatientService ps = new PatientServiceImpl();
+
         String id = dto.getId();
         Patient p = ps.getPatientById(id);
         //status更改为执行中（1）
@@ -122,13 +133,12 @@ public class PatientController {
         ips.addInPath(inPath);
         Map<String, Object> map = new HashMap<>();
         //添加到stage1
-        StageService ss = new StageServiceImpl();
         JSONObject ch= new JSONObject(dto.getCheckedCities());
         JSONObject ci = new JSONObject(dto.getCities());
         JSONObject de = new JSONObject(dto.getDetailCities());
         ss.addStage1(new Stage1(p.getId(),ch.toJSONString(),ci.toJSONString(),de.toJSONString(),LocalDate.parse(dto.getDate()),LocalTime.parse(dto.getTime()),null,null));
         //添加到overall 将第一阶段改为正在进行
-        OverAllService oas = new OverAllServiceImpl();
+
         oas.addOverAll(new OverAll(p.getId(),StageStatus.DOING.getId(),StageStatus.TODO.getId(),StageStatus.TODO.getId(),StageStatus.TODO.getId()));
         map.put("message","success");
         return Result.success(map);
@@ -137,8 +147,8 @@ public class PatientController {
 
     @RequestMapping(value = "/path/overall", method = RequestMethod.GET)
     public Result<List<OverAllItemDto>> getOverAll(@RequestParam String id) {
-        OverAllService os = new OverAllServiceImpl();
-        OverAll overAllById = os.getOverAllById(id);
+
+        OverAll overAllById = oas.getOverAllById(id);
         List<OverAllItemDto> overAllItemDtos = Transfer.overAllToDtos(overAllById);
         return Result.success(overAllItemDtos);
     }
@@ -152,7 +162,7 @@ public class PatientController {
      */
     @RequestMapping(value = "/path/scan", method = RequestMethod.GET)
     public Result<Map<String, Object>> pathScan(@RequestParam String id, @RequestParam int where) {
-        StageService ss = new StageServiceImpl();
+
         Map<String, Object> map = new HashMap<>();
         if (where == Stage.ONE.getId()) {
             Stage1 stage1 = ss.getStage1ById(id);
@@ -217,7 +227,6 @@ public class PatientController {
         JSONObject ch= new JSONObject(dto.getCheckedCities());
         JSONObject ci = new JSONObject(dto.getCities());
         JSONObject de = new JSONObject(dto.getDetailCities());
-        StageService ss = new StageServiceImpl();
 
         if (dto.getWhere() == Stage.ONE.getId()){
             Stage1 s = ss.getStage1ById(dto.getId());
@@ -257,7 +266,7 @@ public class PatientController {
 
     @RequestMapping(value = "/evaluate/getprocess", method = RequestMethod.GET)
     public Result<Map<String, Object>> evaluateGetProcess(@RequestParam String id){
-        OverAllService oas = new OverAllServiceImpl();
+
         OverAll oa = oas.getOverAllById(id);
         Map<String,Object> map = new HashMap<>();
         if(oa.getStageOne() == StageStatus.DOING.getId()){
@@ -286,14 +295,12 @@ public class PatientController {
         switch (dto.getProce()){
             case 0: break;
             case 1: {
-                StageService ss = new StageServiceImpl();
                 //获取当前阶段
                 int currentStage = dto.getStage();
                 if(currentStage == Stage.ONE.getId()){
                     Stage1 s1 = ss.getStage1ById(dto.getId());
                     ss.updateStage1(new Stage1(s1.getPatientId(),s1.getCheckedCities(),s1.getCities(),s1.getDetailCities(),s1.getBeginDate(),s1.getBeginTime(),dto.getDate(),dto.getTime()));
                     ss.addStage2(new Stage2(dto.getId(),Stage2.getInitialCheckedCities(),Stage2.getInitialCities(),Stage2.getInitialDetailCities(),dto.getDate(),dto.getTime(),null,null));
-                    OverAllService oas = new OverAllServiceImpl();
                     OverAll oa = oas.getOverAllById(dto.getId());
                     oa.setStageOne(StageStatus.DONE.getId());
                     oa.setStageTwo(StageStatus.DOING.getId());
@@ -302,7 +309,6 @@ public class PatientController {
                     Stage2 s2 = ss.getStage2ById(dto.getId());
                     ss.updateStage2(new Stage2(s2.getPatientId(),s2.getCheckedCities(),s2.getCities(),s2.getDetailCities(),s2.getBeginDate(),s2.getBeginTime(),dto.getDate(),dto.getTime()));
                     ss.addStage3(new Stage3(dto.getId(),Stage3.getInitialCheckedCities(),Stage3.getInitialCities(),Stage3.getInitialDetailCities(),dto.getDate(),dto.getTime(),null,null));
-                    OverAllService oas = new OverAllServiceImpl();
                     OverAll oa = oas.getOverAllById(dto.getId());
                     oa.setStageTwo(StageStatus.DONE.getId());
                     oa.setStageThree(StageStatus.DOING.getId());
@@ -311,7 +317,6 @@ public class PatientController {
                     Stage3 s3 = ss.getStage3ById(dto.getId());
                     ss.updateStage3(new Stage3(s3.getPatientId(), s3.getCheckedCities(), s3.getCities(), s3.getDetailCities(), s3.getBeginDate(), s3.getBeginTime(), dto.getDate(), dto.getTime()));
                     ss.addStage4(new Stage4(dto.getId(), Stage4.getInitialCheckedCities(), Stage4.getInitialCities(), Stage4.getInitialDetailCities(), dto.getDate(), dto.getTime(), null, null));
-                    OverAllService oas = new OverAllServiceImpl();
                     OverAll oa = oas.getOverAllById(dto.getId());
                     oa.setStageThree(StageStatus.DONE.getId());
                     oa.setStageFour(StageStatus.DOING.getId());
@@ -320,9 +325,7 @@ public class PatientController {
                 break;
             }
             case 3:{
-                StageService ss = new StageServiceImpl();
                 int currentStage = dto.getStage();
-                OverAllService oas = new OverAllServiceImpl();
                 OverAll oa = oas.getOverAllById(dto.getId());
                 if(currentStage == Stage.ONE.getId()){
                     Stage1 s1 = ss.getStage1ById(dto.getId());
@@ -342,9 +345,7 @@ public class PatientController {
                 oa.setStageThree(StageStatus.DONE.getId());
                 oa.setStageFour(StageStatus.DONE.getId());
                 oas.updateOverAll(oa);
-                InPathService ips = new InPathServiceImpl();
                 InPath ip = ips.getInPathById(dto.getId());
-                PatientService ps = new PatientServiceImpl();
                 Patient p = ps.getPatientById(dto.getId());
                 p.setStatus(Status.ENDED.getId());
                 ip.setStatus(Status.ENDED.getId());
@@ -353,9 +354,7 @@ public class PatientController {
                 break;
             }
             case 2:{
-                StageService ss = new StageServiceImpl();
                 int currentStage = dto.getStage();
-                OverAllService oas = new OverAllServiceImpl();
                 OverAll oa = oas.getOverAllById(dto.getId());
                 if(currentStage == Stage.ONE.getId()){
                     Stage1 s1 = ss.getStage1ById(dto.getId());
@@ -375,15 +374,12 @@ public class PatientController {
                 oa.setStageThree(StageStatus.DONE.getId());
                 oa.setStageFour(StageStatus.DONE.getId());
                 oas.updateOverAll(oa);
-                InPathService ips = new InPathServiceImpl();
-                PatientService ps = new PatientServiceImpl();
                 Patient p = ps.getPatientById(dto.getId());
                 InPath ip = ips.getInPathById(dto.getId());
                 ip.setStatus(Status.MUTATED.getId());
                 p.setStatus(Status.MUTATED.getId());
                 ips.updateInPath(ip);
                 ps.updatePatient(p);
-                VariationService vs = new VariationServiceImpl();
                 vs.addVariation(new Variation(dto.getId(),dto.getGround()));
                 break;
             }
@@ -396,7 +392,6 @@ public class PatientController {
 
     @RequestMapping(value = "/out", method = RequestMethod.GET)
     public Result<Map<String, Object>> getOut(@RequestParam String id) {
-        VariationService vs = new VariationServiceImpl();
         Map<String,Object> map = new HashMap<>();
         Variation v = vs.getVariationById(id);
         if(v!=null){
