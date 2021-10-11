@@ -1,6 +1,7 @@
 package com.hust.hospital.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hust.hospital.dto.*;
 import com.hust.hospital.entity.*;
@@ -164,6 +165,8 @@ public class PatientController {
             JSONObject checkedCities = JSON.parseObject(stage1.getCheckedCities());
             JSONObject cities = JSON.parseObject(stage1.getCities());
             JSONObject detailCities = JSON.parseObject(stage1.getDetailCities());
+            //方便前端显示 需要转化
+            Transfer.transferCheckedCities(checkedCities,cities);
             map.put("cities",cities);
             map.put("checkedCities", checkedCities);
             map.put("detailCities",detailCities);
@@ -176,6 +179,7 @@ public class PatientController {
             JSONObject checkedCities = JSON.parseObject(stage2.getCheckedCities());
             JSONObject cities = JSON.parseObject(stage2.getCities());
             JSONObject detailCities = JSON.parseObject(stage2.getDetailCities());
+            Transfer.transferCheckedCities(checkedCities,cities);
             map.put("cities",cities);
             map.put("checkedCities", checkedCities);
             map.put("detailCities",detailCities);
@@ -188,6 +192,7 @@ public class PatientController {
             JSONObject checkedCities = JSON.parseObject(stage3.getCheckedCities());
             JSONObject cities = JSON.parseObject(stage3.getCities());
             JSONObject detailCities = JSON.parseObject(stage3.getDetailCities());
+            Transfer.transferCheckedCities(checkedCities,cities);
             map.put("cities",cities);
             map.put("checkedCities", checkedCities);
             map.put("detailCities",detailCities);
@@ -200,6 +205,7 @@ public class PatientController {
             JSONObject checkedCities = JSON.parseObject(stage4.getCheckedCities());
             JSONObject cities = JSON.parseObject(stage4.getCities());
             JSONObject detailCities = JSON.parseObject(stage4.getDetailCities());
+            Transfer.transferCheckedCities(checkedCities,cities);
             map.put("cities",cities);
             map.put("checkedCities", checkedCities);
             map.put("detailCities",detailCities);

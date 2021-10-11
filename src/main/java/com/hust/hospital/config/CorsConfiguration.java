@@ -19,7 +19,7 @@ public class CorsConfiguration {
         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
         config.setAllowCredentials(true);
         // 设置你要允许的网站域名，如果全允许则设为 *
-        config.addAllowedOrigin("http://localhost:9528");
+        config.addAllowedOrigin("http://localhost:9529");
         config.addAllowedOrigin("http://localhost:8000");
         config.addAllowedOrigin("http://4c252212b1.wicp.vip:80");
         // 如果要限制 HEADER 或 METHOD 请自行更改

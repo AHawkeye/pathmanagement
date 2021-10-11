@@ -1,5 +1,7 @@
 package com.hust.hospital.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.hust.hospital.dto.InPathDto;
 import com.hust.hospital.dto.OverAllItemDto;
 import com.hust.hospital.dto.PatientDto;
@@ -153,5 +155,36 @@ public class Transfer {
         }
         ret.add(dto4);
         return ret;
+    }
+    public static JSONArray transferCheckedCities(JSONArray cityi,JSONArray initCityi){
+        JSONArray newCityi = new JSONArray();
+        for(Object o : initCityi){
+            if (cityi.contains(o)){
+                newCityi.add(o);
+            }else{
+                newCityi.add("");
+            }
+        }
+        return newCityi;
+    }
+
+    public static void transferCheckedCities(JSONObject checkedCities,JSONObject cities){
+        JSONArray city0 = checkedCities.getJSONArray("city0");
+        JSONArray initCity0 = cities.getJSONArray("city0");
+        JSONArray newCity0 = Transfer.transferCheckedCities(city0,initCity0);
+        checkedCities.put("city0",newCity0);
+        JSONArray city1 = checkedCities.getJSONArray("city1");
+        JSONArray initCity1 = cities.getJSONArray("city1");
+        JSONArray newCity1 = Transfer.transferCheckedCities(city1,initCity1);
+        checkedCities.put("city1",newCity1);
+        JSONArray city2 = checkedCities.getJSONArray("city2");
+        JSONArray initCity2 = cities.getJSONArray("city2");
+        JSONArray newCity2 = Transfer.transferCheckedCities(city2,initCity2);
+        checkedCities.put("city2",newCity2);
+        JSONArray city3 = checkedCities.getJSONArray("city3");
+        JSONArray initCity3 = cities.getJSONArray("city3");
+        JSONArray newCity3 = Transfer.transferCheckedCities(city3,initCity3);
+        checkedCities.put("city3",newCity3);
+
     }
 }
