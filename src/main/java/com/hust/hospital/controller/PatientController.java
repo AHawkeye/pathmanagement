@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hust.hospital.dto.*;
 import com.hust.hospital.entity.*;
-import com.hust.hospital.entity.detail.Stage1;
-import com.hust.hospital.entity.detail.Stage2;
-import com.hust.hospital.entity.detail.Stage3;
-import com.hust.hospital.entity.detail.Stage4;
+import com.hust.hospital.entity.detail.*;
 import com.hust.hospital.result.Result;
 import com.hust.hospital.service.*;
 import com.hust.hospital.util.Transfer;
@@ -27,8 +24,6 @@ import java.util.Map;
  */
 @RestController
 public class PatientController {
-
-
 
     @Autowired
     private PatientService ps;
