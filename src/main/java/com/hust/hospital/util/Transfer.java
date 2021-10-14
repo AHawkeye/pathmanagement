@@ -1,5 +1,6 @@
 package com.hust.hospital.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hust.hospital.dto.InPathDto;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Transfer {
     public static PatientDto patientToDto(Patient patient){
@@ -185,6 +187,6 @@ public class Transfer {
         JSONArray initCity3 = cities.getJSONArray("city3");
         JSONArray newCity3 = Transfer.transferCheckedCities(city3,initCity3);
         checkedCities.put("city3",newCity3);
-
     }
+
 }
