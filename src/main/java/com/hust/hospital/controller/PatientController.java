@@ -1,23 +1,20 @@
 package com.hust.hospital.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hust.hospital.dto.*;
 import com.hust.hospital.entity.*;
 import com.hust.hospital.entity.detail.*;
 import com.hust.hospital.result.Result;
 import com.hust.hospital.service.*;
+import com.hust.hospital.util.IDUtils;
 import com.hust.hospital.util.Transfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author EdwardXu
@@ -91,14 +88,7 @@ public class PatientController {
                 return Result.failed(map);
             }
         }
-        StringBuilder sb = new StringBuilder();
-        char[] c = date.toString().toCharArray();
-        for(char c1 : c){
-            if(c1 != '-'){
-                sb.append(c1);
-            }
-        }
-        id = sb.toString()+bed;
+        id = IDUtils.getId();
         map.put("id",id);
         map.put("bed",bed);
         return Result.success(map);
