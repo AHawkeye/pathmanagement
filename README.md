@@ -113,8 +113,5 @@ create table variation
 
 ```
 
-![image-20211018124855938](README.assets/image-20211018124855938.png)
-
-![image-20211018124909010](README.assets/image-20211018124909010.png)
 
 需要在`mybatis-config.xml`以及`application.yml`两处更改数据库连接
