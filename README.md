@@ -14,7 +14,7 @@
 
 # 数据库
 
-database：pathmanagementt
+database：pathmanagement
 
 建表语句：
 
