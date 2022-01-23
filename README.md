@@ -3,6 +3,9 @@
 后端Java实现
 
 一个单病种的医疗路径管理系统
+# 项目地址
+- 后端：https://github.com/AHawkeye/pathmanagement
+- 前端：https://github.com/AKACiven/Clinical_Pathway_Tracking
 
 # 环境
 
